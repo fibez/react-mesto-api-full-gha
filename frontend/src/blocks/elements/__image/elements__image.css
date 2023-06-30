@@ -1,0 +1,9 @@
+.elements__image {
+  max-width: 282px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  background-color: black;
+}

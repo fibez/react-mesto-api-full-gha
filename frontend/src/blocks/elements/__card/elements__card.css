@@ -1,0 +1,8 @@
+.elements__card {
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 10px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}

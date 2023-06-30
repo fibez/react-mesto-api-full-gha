@@ -1,0 +1,12 @@
+.profile__name-button-container {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  column-gap: 18px;
+}
+
+@media screen and (max-width: 700px) {
+  .profile__name-button-container {
+    margin-top: 27px;
+    column-gap: 10px;
+  }
+}

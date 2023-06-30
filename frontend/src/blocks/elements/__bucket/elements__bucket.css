@@ -1,0 +1,17 @@
+.elements__bucket {
+  position: absolute;
+  width: 18px;
+  height: 19px;
+  top: 20px;
+  right: 20px;
+  border: none;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url('../../../images/bucket.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.elements__bucket:hover {
+  opacity: 0.6;
+}
