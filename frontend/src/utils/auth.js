@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://104.131.160.75:3000';
+export const BASE_URL = 'http://127.0.0.1:3001';
 // export const BASE_URL = 'https://auth.nomoreparties.co';
 
 export const checkResponse = (res) => {
@@ -42,6 +42,8 @@ export const checkToken = (token) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-  }).then((res) => res.json());
-  // .then((data) => data);
+  }).then((res) => res.json())
+  .then((data) => {
+    return data;
+  });
 };

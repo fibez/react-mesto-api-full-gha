@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const Card = require('../models/card');
 
 const BadRequestError = require('../utils/errors/BadRequest');

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie'
 import { Header } from './Header';
 import { Main } from './Main';
 import { Footer } from './Footer';
@@ -20,17 +21,13 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [isInfoToooltipOpen, setInfoToolTipOpen] = useState(false);
+  const [token, setToken] = useState('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (loggedIn) {
-      Promise.all([api.getUserInfo(), api.getCards()])
-        .then(([userInfo, initialCards]) => {
-          setCurrentUser(userInfo);
-
-          setCards(initialCards);
-        })
+      getContent()
         .catch((err) => {
           console.error(err);
         });
@@ -38,17 +35,31 @@ function App() {
   }, [loggedIn]);
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      const token = localStorage.getItem('token');
+    if (Cookies.get('jwt')) {
+      const token = Cookies.get('jwt');
+
       auth.checkToken(token).then((res) => {
         if (res) {
-          setUserEmail(res.data.email);
+          setUserEmail(res.email);
           setLoggedIn(true);
           navigate('/', { replace: true });
         }
       });
     }
   }, []);
+
+  function getContent() {
+    const token = Cookies.get('jwt');
+    api.updateToken(token);
+    return Promise.all([api.getUserInfo(), api.getCards()])
+      .then(([userInfo, initialCards]) => {
+        setCurrentUser(userInfo);
+        setCards(initialCards.reverse());
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
   function handleEditProfileCLick() {
     setIsEditProfileOpen(true);
@@ -78,7 +89,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     const method = isLiked ? 'DELETE' : 'PUT';
 
     api
@@ -145,7 +156,7 @@ function App() {
   function handleLogout() {
     setLoggedIn(false);
     navigate('/sign-in', { replace: true });
-    localStorage.removeItem('token');
+    Cookies.remove('jwt');
   }
 
   return (

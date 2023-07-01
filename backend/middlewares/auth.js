@@ -1,12 +1,14 @@
+/* eslint-disable linebreak-style */
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../utils/errors/Unauthorized');
 
 async function auth(req, res, next) {
-  const token = req.cookies.jwt;
+  const { authorization } = req.headers;
 
-  if (!token) {
+  if (!authorization || !authorization.startsWith('Bearer ')) {
     return next(new UnauthorizedError('Отсутствует токен авторизации'));
   }
+  const token = authorization.replace('Bearer ', '');
   let payload;
 
   try {

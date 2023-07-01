@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import * as auth from '../utils/auth.js';
 import { InfoTooltip } from './InfoTooltip.js';
@@ -29,12 +30,16 @@ function Login(props) {
     auth
       .authorize(formValue.email, formValue.password)
       .then((data) => {
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          props.onLogin(true);
-          navigate('/', { replace: true });
-
-          return data;
+        if (data.jwt) {
+          Cookies.set('jwt', data.jwt);
+          const token = Cookies.get('jwt');
+          auth.checkToken(token).then((res) => {
+            if (res) {
+              props.onLogin(true);
+              navigate('/', { replace: true });
+              // return res;
+            }
+          })
         }
       })
       .catch(() => {
@@ -42,6 +47,20 @@ function Login(props) {
         setLoginError(true);
       });
   }
+
+  // useEffect(() => {
+  //   if (Cookies.get('jwt')) {
+  //     const token = Cookies.get('jwt');
+
+  //     auth.checkToken(token).then((res) => {
+  //       if (res) {
+  //         setUserEmail(res.email);
+  //         setLoggedIn(true);
+  //         navigate('/', { replace: true });
+  //       }
+  //     });
+  //   }
+  // }, []);
 
   return (
     <>

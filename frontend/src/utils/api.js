@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 class Api {
   constructor(path, token) {
     this._basePath = path;
@@ -8,7 +10,7 @@ class Api {
     return fetch(`${this._basePath}/${path}`, {
       method: method,
       headers: {
-        authorization: this._authToken,
+        Authorization: `Bearer ${this._authToken}`,
         'Content-Type': 'application/json',
       },
       body: body,
@@ -50,7 +52,7 @@ class Api {
 
   addNewCard(formValues) {
     return this._request(
-      '/cards',
+      'cards',
       'POST',
       JSON.stringify({
         name: formValues.name,
@@ -76,8 +78,12 @@ class Api {
   updateLike(cardId, method) {
     return this._request(`cards/${cardId}/likes`, method);
   }
+
+  updateToken(token) {
+    this._authToken = token;
+  }
 }
 
-const api = new Api('https://mesto.nomoreparties.co/v1/cohort-59', '3a99dc75-7908-4d48-95a2-7baec3f5e64d');
+const api = new Api('http://127.0.0.1:3001', Cookies.get('jwt'));
 
 export { api };
