@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
@@ -37,6 +38,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 app.use(requestLogger);
 app.use(cookieParser());
 app.use(cors(corsSettings));
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 app.post('/signup', userSchemaSignupValidator, createUser);
 app.post('/signin', userSchemaSigninValidator, login);
 app.use('/users', userRouter);

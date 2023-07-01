@@ -12,7 +12,7 @@ async function auth(req, res, next) {
   let payload;
 
   try {
-    payload = jwt.verify(token, 'secret_key');
+    payload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = payload;
     return next();
   } catch (error) {
