@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://aedmestobackend.nomoreparties.sbs';
+export const BASE_URL = 'http://aedmestobackend.nomoreparties.sbs';
 
 export const checkResponse = (res) => {
   if (!res.ok) {
