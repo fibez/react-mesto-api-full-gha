@@ -18,10 +18,6 @@ async function createCard(req, res, next) {
   try {
     const { name, link } = req.body;
 
-    if (!name || !link) {
-      throw new BadRequestError('Одно из обязательных полей не заполнено');
-    }
-
     const newCard = await Card.create({
       name,
       link,
@@ -31,7 +27,7 @@ async function createCard(req, res, next) {
     return res.json(newCard);
   } catch (error) {
     if (error.name === 'ValidationError') {
-      throw new BadRequestError('Переданы некорректные данные');
+      throw next(new BadRequestError('Переданы некорректные данные'));
     }
     return next(error);
   }
@@ -57,7 +53,7 @@ async function deleteCard(req, res, next) {
     return res.json(card);
   } catch (error) {
     if (error.name === 'CastError') {
-      throw new BadRequestError('Некорректный идентификатор карточки');
+      throw next(new BadRequestError('Некорректный идентификатор карточки'));
     }
     return next(error);
   }
@@ -78,7 +74,7 @@ async function likeCard(req, res, next) {
     return res.status(200).json(updatedCard);
   } catch (error) {
     if (error.name === 'CastError') {
-      throw new BadRequestError('Некорректный идентификатор карточки');
+      throw next(new BadRequestError('Некорректный идентификатор карточки'));
     }
     return next(error);
   }
@@ -99,7 +95,7 @@ async function dislikeCard(req, res, next) {
     return res.json(updatedCard);
   } catch (error) {
     if (error.name === 'CastError') {
-      throw new BadRequestError('Некорректный идентификатор карточки');
+      throw next(new BadRequestError('Некорректный идентификатор карточки'));
     }
     return next(error);
   }

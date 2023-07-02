@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../utils/errors/Unauthorized');
+const { secretKey } = require('../utils/constants');
 
 async function auth(req, res, next) {
   const { authorization } = req.headers;
@@ -12,7 +13,7 @@ async function auth(req, res, next) {
   let payload;
 
   try {
-    payload = jwt.verify(token, process.env.JWT_SECRET);
+    payload = jwt.verify(token, secretKey);
     req.user = payload;
     return next();
   } catch (error) {

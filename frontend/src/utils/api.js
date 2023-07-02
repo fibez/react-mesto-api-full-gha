@@ -84,6 +84,6 @@ class Api {
   }
 }
 
-const api = new Api('http://aedmestobackend.nomoreparties.sbs', Cookies.get('jwt'));
+const api = new Api('https://aedmestobackend.nomoreparties.sbs', Cookies.get('jwt'));
 
 export { api };

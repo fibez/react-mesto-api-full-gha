@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const user = require('../models/user');
+const { secretKey } = require('../utils/constants');
 
 const BadRequestError = require('../utils/errors/BadRequest');
 const ConflictError = require('../utils/errors/Conflict');
@@ -132,7 +133,7 @@ async function login(req, res, next) {
       throw new UnauthorizedError('Неправильная почта или пароль');
     }
 
-    const token = jwt.sign({ _id: foundUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ _id: foundUser._id }, secretKey, { expiresIn: '7d' });
 
     res.cookie('jwt', token, { httpOnly: true, maxAge: 3600000 * 24 * 7 });
 

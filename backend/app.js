@@ -50,9 +50,9 @@ app.post('/signin', userSchemaSigninValidator, login);
 app.use('/users', userRouter);
 app.use(cardRouter);
 
-app.use(errorLogger);
-
 app.use((req, res, next) => next(new NotFoundError('Неправильный путь')));
+
+app.use(errorLogger);
 
 app.use(errors());
 app.use(errorHandler);
