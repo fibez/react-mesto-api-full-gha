@@ -27,7 +27,7 @@ async function createCard(req, res, next) {
     return res.json(newCard);
   } catch (error) {
     if (error.name === 'ValidationError') {
-      throw next(new BadRequestError('Переданы некорректные данные'));
+      return next(new BadRequestError('Переданы некорректные данные'));
     }
     return next(error);
   }
@@ -53,7 +53,7 @@ async function deleteCard(req, res, next) {
     return res.json(card);
   } catch (error) {
     if (error.name === 'CastError') {
-      throw next(new BadRequestError('Некорректный идентификатор карточки'));
+      return next(new BadRequestError('Некорректный идентификатор карточки'));
     }
     return next(error);
   }
@@ -74,7 +74,7 @@ async function likeCard(req, res, next) {
     return res.status(200).json(updatedCard);
   } catch (error) {
     if (error.name === 'CastError') {
-      throw next(new BadRequestError('Некорректный идентификатор карточки'));
+      return next(new BadRequestError('Некорректный идентификатор карточки'));
     }
     return next(error);
   }
@@ -95,7 +95,7 @@ async function dislikeCard(req, res, next) {
     return res.json(updatedCard);
   } catch (error) {
     if (error.name === 'CastError') {
-      throw next(new BadRequestError('Некорректный идентификатор карточки'));
+      return next(new BadRequestError('Некорректный идентификатор карточки'));
     }
     return next(error);
   }
